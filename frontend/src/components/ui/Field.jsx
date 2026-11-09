@@ -29,7 +29,7 @@ function FieldWrapper({ id, label, hint, error, children, className }) {
   );
 }
 
-export const Input = forwardRef(function Input({ label, hint, error, className, inputClassName, icon: Icon, ...props }, ref) {
+export const Input = forwardRef(function Input({ label, hint, error, className, inputClassName, icon: Icon, trailing, ...props }, ref) {
   const generatedId = useId();
   const id = props.id || generatedId;
 
@@ -45,6 +45,7 @@ export const Input = forwardRef(function Input({ label, hint, error, className, 
           className={cn(controlClasses, stateClasses(error), "h-10", Icon && "pl-9", inputClassName)}
           {...props}
         />
+        {trailing && <div className="absolute right-2 top-1/2 -translate-y-1/2">{trailing}</div>}
       </div>
     </FieldWrapper>
   );

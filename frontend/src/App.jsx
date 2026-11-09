@@ -14,8 +14,7 @@ import { useTheme } from "./lib/theme";
 const Stack = lazy(() => import("./pages/Stack"));
 const Search = lazy(() => import("./pages/Search"));
 const Post = lazy(() => import("./pages/Post"));
-const Signin = lazy(() => import("./pages/Signin"));
-const Signup = lazy(() => import("./pages/Signup"));
+const AuthLayout = lazy(() => import("./components/auth/AuthLayout"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const CreatePost = lazy(() => import("./pages/CreatePost"));
 const EditPost = lazy(() => import("./pages/EditPost"));
@@ -45,8 +44,8 @@ export default function App() {
               <Route path="/search" element={<Search />} />
               <Route path="/post/:postSlug" element={<Post />} />
               <Route path="/stack" element={<Stack />} />
-              <Route path="/sign-in" element={<Signin />} />
-              <Route path="/sign-up" element={<Signup />} />
+              <Route path="/sign-in" element={<AuthLayout />} />
+              <Route path="/sign-up" element={<AuthLayout />} />
               <Route element={<LoggedInRoute />}>
                 <Route path="/dashboard" element={<Dashboard />} />
               </Route>

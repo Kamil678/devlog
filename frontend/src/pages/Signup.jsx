@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import AuthLayout, { Divider } from "../components/auth/AuthLayout";
+import Divider from "../components/auth/Divider";
 import GoogleButton from "../components/auth/GoogleButton";
+import PasswordInput from "../components/auth/PasswordInput";
 import Button from "../components/ui/Button";
 import { Input } from "../components/ui/Field";
-import Seo from "../components/ui/Seo";
 import { api } from "../lib/api";
 import { useErrorMessage } from "../hooks/useErrorMessage";
 import { useAuthRedirect } from "../hooks/useAuthRedirect";
@@ -54,20 +53,8 @@ export default function Signup() {
   };
 
   return (
-    <AuthLayout
-      title={t("auth.signUpTitle")}
-      description={t("auth.signUpDescription")}
-      footer={
-        <>
-          {t("auth.haveAccount")}{" "}
-          <Link to="/sign-in" className="font-medium text-gray-900 underline-offset-4 hover:underline dark:text-white">
-            {t("auth.signIn")}
-          </Link>
-        </>
-      }
-    >
-      <Seo title={t("auth.signUpTitle")} />
-      <GoogleButton onSuccess={onSignedIn} />
+    <>
+      <GoogleButton onSuccess={onSignedIn} label={t("auth.googleSignUp")} />
       <Divider label={t("auth.or")} />
       <form onSubmit={submit} className="flex flex-col gap-4" noValidate>
         <Input
@@ -89,9 +76,8 @@ export default function Signup() {
           onBlur={blur}
           error={fieldError("email")}
         />
-        <Input
+        <PasswordInput
           label={t("auth.password")}
-          type="password"
           name="password"
           autoComplete="new-password"
           value={form.password}
@@ -105,10 +91,10 @@ export default function Signup() {
             {error}
           </p>
         )}
-        <Button type="submit" className="w-full" loading={loading}>
+        <Button type="submit" variant="accent" className="mt-1 w-full font-semibold" loading={loading}>
           {t("auth.createAccount")}
         </Button>
       </form>
-    </AuthLayout>
+    </>
   );
 }

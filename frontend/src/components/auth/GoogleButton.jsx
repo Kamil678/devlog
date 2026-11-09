@@ -8,7 +8,7 @@ import { api } from "../../lib/api";
 import { useErrorMessage } from "../../hooks/useErrorMessage";
 import Button from "../ui/Button";
 
-export default function GoogleButton({ onSuccess }) {
+export default function GoogleButton({ onSuccess, label }) {
   const { t } = useTranslation();
   const errorMessage = useErrorMessage();
   const [loading, setLoading] = useState(false);
@@ -35,7 +35,7 @@ export default function GoogleButton({ onSuccess }) {
   return (
     <Button variant="secondary" className="w-full" onClick={signIn} loading={loading}>
       {!loading && <FcGoogle className="h-4 w-4" />}
-      {t("auth.google")}
+      {label || t("auth.google")}
     </Button>
   );
 }

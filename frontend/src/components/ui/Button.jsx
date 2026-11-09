@@ -4,8 +4,8 @@ import { cn } from "../../lib/cn";
 import Spinner from "./Spinner";
 
 const variants = {
-  primary:
-    "bg-gray-900 text-white hover:bg-gray-700 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 shadow-sm",
+  primary: "bg-gray-800 text-white hover:bg-gray-900 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 shadow-sm",
+  accent: "bg-gray-800 text-white hover:bg-gray-900 dark:bg-brand-500 dark:text-gray-950 dark:hover:bg-brand-400 shadow-sm",
   brand: "bg-brand-600 text-white hover:bg-brand-700 shadow-sm shadow-brand-600/20",
   secondary:
     "border border-gray-200 bg-white text-gray-900 hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-gray-800",
@@ -22,13 +22,13 @@ const sizes = {
 
 const Button = forwardRef(function Button(
   { variant = "primary", size = "md", to, href, loading = false, disabled, className, children, ...props },
-  ref
+  ref,
 ) {
   const classes = cn(
     "inline-flex shrink-0 items-center justify-center rounded-lg font-medium transition-colors duration-150 disabled:pointer-events-none disabled:opacity-50",
     variants[variant],
     sizes[size],
-    className
+    className,
   );
 
   if (to) {
