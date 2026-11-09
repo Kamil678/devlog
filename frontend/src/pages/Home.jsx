@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { HiArrowRight, HiOutlineDocumentText } from "react-icons/hi2";
+import { HiArrowRight, HiArrowUpRight, HiOutlineDocumentText } from "react-icons/hi2";
 import PostCard, { PostCardSkeleton } from "../components/posts/PostCard";
 import AuthorCard from "../components/AuthorCard";
 import Badge from "../components/ui/Badge";
@@ -7,6 +7,7 @@ import Button from "../components/ui/Button";
 import EmptyState from "../components/ui/EmptyState";
 import Seo from "../components/ui/Seo";
 import { useApi } from "../hooks/useApi";
+import { site } from "../lib/site";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -37,8 +38,9 @@ export default function Home() {
                 {t("home.browse")}
                 <HiArrowRight className="h-4 w-4" />
               </Button>
-              <Button to="/about" size="lg" variant="secondary">
-                {t("home.aboutAuthor")}
+              <Button href={site.portfolio} size="lg" variant="secondary">
+                {t("home.portfolio")}
+                <HiArrowUpRight className="h-4 w-4" />
               </Button>
             </div>
           </div>

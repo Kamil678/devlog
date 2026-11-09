@@ -6,8 +6,7 @@
   "nav": {
     "home": "Home",
     "articles": "Articles",
-    "projects": "Projects",
-    "about": "About",
+    "howItWorks": "How it works",
     "signIn": "Sign in",
     "signOut": "Sign out",
     "profile": "Profile",
@@ -35,7 +34,7 @@
     "titleAccent": "no fluff.",
     "subtitle": "Practical articles about React, Node.js and the tools I use every day. Short, concrete, with code examples.",
     "browse": "Browse articles",
-    "aboutAuthor": "About the author",
+    "portfolio": "Portfolio",
     "latestEyebrow": "Latest",
     "latestTitle": "Recent articles",
     "seeAll": "See all",
@@ -196,63 +195,76 @@
     "characters_one": "{{count}} character",
     "characters_other": "{{count}} characters"
   },
-  "projects": {
-    "eyebrow": "Portfolio",
-    "title": "Projects",
-    "description": "Selected websites and apps I have built.",
-    "code": "Code",
-    "live": "Live"
-  },
-  "about": {
-    "openToWork": "Open to new projects",
-    "hello": "Hi, I'm Kamil.",
-    "intro": "Frontend Developer with 4 years of commercial experience in web technologies. I specialise in building modern, dynamic web applications, and I keep growing my skills through personal projects published on GitHub.",
-    "skillsEyebrow": "Skills",
-    "skillsTitle": "Tech stack",
+  "stack": {
+    "eyebrow": "Under the hood",
+    "title": "How devlog works",
+    "description": "devlog is a full-stack project built from scratch: a React SPA, a REST API in Express and a MongoDB database. Here is what is inside and how the parts talk to each other.",
+    "tryDemo": "Try the demo",
+    "stackEyebrow": "Stack",
+    "stackTitle": "What it is built with",
     "groups": {
       "frontend": "Frontend",
       "backend": "Backend",
-      "tools": "Tools"
+      "services": "Services",
+      "quality": "Quality"
     },
-    "blogEyebrow": "Project",
-    "blogTitle": "About this blog",
-    "features": {
-      "stack": {
-        "title": "Full-stack",
-        "desc": "React and Tailwind on the frontend, Node.js, Express and MongoDB on the backend, connected by a REST API."
+    "flowEyebrow": "Request flow",
+    "flowTitle": "What happens when you save a post",
+    "flowDescription": "Every protected request goes through the same chain of middleware before it reaches the database.",
+    "steps": [
+      {
+        "title": "fetch(\"/api/...\")",
+        "desc": "The browser sends the request with an httpOnly cookie. The frontend and the API share one domain, so no CORS is needed."
       },
+      {
+        "title": "verifyToken",
+        "desc": "Reads the JWT from the cookie and checks its signature. No valid token means 401."
+      },
+      {
+        "title": "requireAdmin · blockDemo",
+        "desc": "Checks the role. Only admins can write posts, and the demo account is read-only. Otherwise 403."
+      },
+      {
+        "title": "zod",
+        "desc": "Validates the request body. Errors come back as codes like TITLE_TOO_SHORT, translated in the UI."
+      },
+      {
+        "title": "Mongoose",
+        "desc": "The controller saves the post in MongoDB and returns JSON in one consistent shape."
+      },
+      {
+        "title": "React",
+        "desc": "The UI updates and shows a toast. Session state lives in Redux and is checked against /auth/me on startup."
+      }
+    ],
+    "featuresEyebrow": "Features",
+    "featuresTitle": "What you can try",
+    "features": {
       "auth": {
         "title": "Authentication",
-        "desc": "Email and password or Google sign-in. JWT session in an httpOnly cookie."
+        "desc": "Email and password or Google sign-in verified on the server. JWT session in an httpOnly cookie."
       },
       "admin": {
         "title": "Admin dashboard",
-        "desc": "Create, edit and delete posts, moderate comments and see stats."
+        "desc": "Stats with a six-month chart, a rich-text editor with image upload, and tables for posts, comments and users."
       },
       "comments": {
         "title": "Comments",
         "desc": "Add, edit, like and delete comments under every post."
-      }
-    },
-    "historyEyebrow": "Journey",
-    "historyTitle": "How I got here",
-    "timeline": [
-      {
-        "year": "since 2022",
-        "title": "Frontend Developer",
-        "desc": "Commercial work with Vue.js, Quasar, TypeScript and DevOps tooling."
       },
-      {
-        "year": "2024",
-        "title": "Fullstack Blog",
-        "desc": "Personal project: React, Tailwind, Node.js, Express, MongoDB."
+      "security": {
+        "title": "Security",
+        "desc": "helmet headers, rate-limited sign-in, zod validation and post HTML sanitized with DOMPurify."
       },
-      {
-        "year": "2021",
-        "title": "First steps",
-        "desc": "HTML, CSS and JavaScript: the start of my web development journey."
+      "i18n": {
+        "title": "Polish and English",
+        "desc": "Full UI translation with a language switcher, plus light and dark theme without a flash on load."
+      },
+      "tests": {
+        "title": "Tests",
+        "desc": "API tests with Vitest and Supertest on an in-memory MongoDB, covering roles, the demo account and validation."
       }
-    ]
+    }
   },
   "footer": {
     "description": "A web development blog, built from scratch with React, Express and MongoDB.",

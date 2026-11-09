@@ -33,7 +33,7 @@ export default function AuthLayout({ title, description, children, footer }) {
           </pre>
         </div>
         <div className="relative mt-10">
-          <p className="font-mono text-xs uppercase tracking-widest text-brand-600 dark:text-brand-400">fullstack.blog</p>
+          <p className="font-mono text-xs uppercase tracking-widest text-brand-600 dark:text-brand-400">dev.log</p>
           <h2 className="mt-3 text-3xl font-bold tracking-tight">{t("auth.asideTitle")}</h2>
           <ul className="mt-8 space-y-4">
             {features.map(({ icon: Icon, text }) => (

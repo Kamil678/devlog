@@ -12,8 +12,7 @@ export default function Footer() {
       title: t("footer.blog"),
       links: [
         { to: "/search", label: t("nav.articles") },
-        { to: "/projects", label: t("nav.projects") },
-        { to: "/about", label: t("nav.about") },
+        { to: "/stack", label: t("nav.howItWorks") },
       ],
     },
     {
@@ -21,6 +20,7 @@ export default function Footer() {
       links: [
         { href: site.github, label: "GitHub" },
         { href: site.linkedin, label: "LinkedIn" },
+        ...(site.portfolio ? [{ href: site.portfolio, label: t("home.portfolio") }] : []),
         { href: site.repo, label: t("footer.sourceCode") },
       ],
     },

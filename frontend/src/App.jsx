@@ -11,8 +11,7 @@ import Home from "./pages/Home";
 import { useSession } from "./hooks/useSession";
 import { useTheme } from "./lib/theme";
 
-const About = lazy(() => import("./pages/About"));
-const Projects = lazy(() => import("./pages/Projects"));
+const Stack = lazy(() => import("./pages/Stack"));
 const Search = lazy(() => import("./pages/Search"));
 const Post = lazy(() => import("./pages/Post"));
 const Signin = lazy(() => import("./pages/Signin"));
@@ -45,8 +44,7 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/search" element={<Search />} />
               <Route path="/post/:postSlug" element={<Post />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/projects" element={<Projects />} />
+              <Route path="/stack" element={<Stack />} />
               <Route path="/sign-in" element={<Signin />} />
               <Route path="/sign-up" element={<Signup />} />
               <Route element={<LoggedInRoute />}>

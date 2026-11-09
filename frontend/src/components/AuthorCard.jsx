@@ -16,8 +16,8 @@ export default function AuthorCard() {
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{t("author.bio")}</p>
       </div>
       <div className="flex gap-2">
-        <Button to="/about" variant="secondary" size="sm">
-          {t("nav.about")}
+        <Button href={site.portfolio} variant="secondary" size="sm">
+          {t("home.portfolio")}
         </Button>
         <Button href={site.github} variant="ghost" size="icon" aria-label="GitHub">
           <BsGithub className="h-4 w-4" />

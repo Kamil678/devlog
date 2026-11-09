@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 export default function Seo({ title, description, image, type = "website" }) {
   const { t } = useTranslation();
-  const fullTitle = title ? `${title} · Fullstack Blog` : `Fullstack Blog · ${t("seo.tagline")}`;
+  const fullTitle = title ? `${title} · devlog` : `devlog · ${t("seo.tagline")}`;
   const desc = description || t("seo.description");
 
   return (

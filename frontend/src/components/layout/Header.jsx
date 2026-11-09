@@ -35,8 +35,7 @@ export default function Header() {
   const links = [
     { to: "/", label: t("nav.home"), end: true },
     { to: "/search", label: t("nav.articles") },
-    { to: "/projects", label: t("nav.projects") },
-    { to: "/about", label: t("nav.about") },
+    { to: "/stack", label: t("nav.howItWorks") },
   ];
 
   const linkClass = ({ isActive }) =>

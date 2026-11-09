@@ -6,8 +6,7 @@
   "nav": {
     "home": "Start",
     "articles": "Artykuły",
-    "projects": "Projekty",
-    "about": "O mnie",
+    "howItWorks": "Jak to działa",
     "signIn": "Zaloguj się",
     "signOut": "Wyloguj się",
     "profile": "Profil",
@@ -35,7 +34,7 @@
     "titleAccent": "bez lania wody.",
     "subtitle": "Praktyczne artykuły o React, Node.js i narzędziach, z których korzystam na co dzień. Krótko, konkretnie, z przykładami kodu.",
     "browse": "Przeglądaj artykuły",
-    "aboutAuthor": "O autorze",
+    "portfolio": "Portfolio",
     "latestEyebrow": "Najnowsze",
     "latestTitle": "Ostatnie artykuły",
     "seeAll": "Zobacz wszystkie",
@@ -208,63 +207,76 @@
     "characters_many": "{{count}} znaków",
     "characters_other": "{{count}} znaku"
   },
-  "projects": {
-    "eyebrow": "Portfolio",
-    "title": "Projekty",
-    "description": "Wybrane strony i aplikacje, które zbudowałem.",
-    "code": "Kod",
-    "live": "Na żywo"
-  },
-  "about": {
-    "openToWork": "Otwarty na nowe projekty",
-    "hello": "Cześć, jestem Kamil.",
-    "intro": "Frontend Developer z 4-letnim doświadczeniem komercyjnym w technologiach webowych. Specjalizuję się w tworzeniu nowoczesnych i dynamicznych aplikacji internetowych. Nieustannie poszerzam swoje umiejętności, realizując własne projekty publikowane na GitHubie.",
-    "skillsEyebrow": "Umiejętności",
-    "skillsTitle": "Stack technologiczny",
+  "stack": {
+    "eyebrow": "Pod maską",
+    "title": "Jak działa devlog",
+    "description": "devlog to projekt fullstack zbudowany od zera: aplikacja SPA w React, REST API w Express i baza MongoDB. Zobacz, co jest w środku i jak te części ze sobą rozmawiają.",
+    "tryDemo": "Wypróbuj demo",
+    "stackEyebrow": "Stack",
+    "stackTitle": "Z czego jest zbudowany",
     "groups": {
       "frontend": "Frontend",
       "backend": "Backend",
-      "tools": "Narzędzia"
+      "services": "Usługi",
+      "quality": "Jakość"
     },
-    "blogEyebrow": "Projekt",
-    "blogTitle": "O tym blogu",
-    "features": {
-      "stack": {
-        "title": "Fullstack",
-        "desc": "React i Tailwind na froncie, Node.js, Express i MongoDB na backendzie, komunikacja przez REST API."
+    "flowEyebrow": "Przepływ żądania",
+    "flowTitle": "Co się dzieje, gdy zapisujesz post",
+    "flowDescription": "Każde chronione żądanie przechodzi przez ten sam łańcuch middleware'ów, zanim dotrze do bazy.",
+    "steps": [
+      {
+        "title": "fetch(\"/api/...\")",
+        "desc": "Przeglądarka wysyła żądanie z ciasteczkiem httpOnly. Frontend i API są pod jedną domeną, więc CORS nie jest potrzebny."
       },
+      {
+        "title": "verifyToken",
+        "desc": "Odczytuje JWT z ciasteczka i sprawdza podpis. Brak ważnego tokenu oznacza 401."
+      },
+      {
+        "title": "requireAdmin · blockDemo",
+        "desc": "Sprawdza rolę. Posty zapisuje tylko admin, a konto demo jest tylko do odczytu. W przeciwnym razie 403."
+      },
+      {
+        "title": "zod",
+        "desc": "Waliduje treść żądania. Błędy wracają jako kody, np. TITLE_TOO_SHORT, tłumaczone w interfejsie."
+      },
+      {
+        "title": "Mongoose",
+        "desc": "Kontroler zapisuje post w MongoDB i zwraca JSON w jednym, spójnym formacie."
+      },
+      {
+        "title": "React",
+        "desc": "Interfejs się odświeża i pokazuje powiadomienie. Stan sesji jest w Reduxie i przy starcie sprawdzany przez /auth/me."
+      }
+    ],
+    "featuresEyebrow": "Funkcje",
+    "featuresTitle": "Co możesz wypróbować",
+    "features": {
       "auth": {
-        "title": "Autoryzacja",
-        "desc": "Logowanie e-mailem i hasłem albo przez Google. Sesja JWT w ciasteczku httpOnly."
+        "title": "Logowanie",
+        "desc": "E-mail i hasło albo Google, weryfikowane na serwerze. Sesja JWT w ciasteczku httpOnly."
       },
       "admin": {
         "title": "Panel administratora",
-        "desc": "Tworzenie, edycja i usuwanie postów, moderacja komentarzy i statystyki."
+        "desc": "Statystyki z wykresem z sześciu miesięcy, edytor z wgrywaniem obrazów i tabele postów, komentarzy i użytkowników."
       },
       "comments": {
         "title": "Komentarze",
         "desc": "Dodawanie, edycja, polubienia i usuwanie komentarzy pod każdym wpisem."
-      }
-    },
-    "historyEyebrow": "Historia",
-    "historyTitle": "Moja droga",
-    "timeline": [
-      {
-        "year": "od 2022",
-        "title": "Frontend Developer",
-        "desc": "Praca komercyjna z Vue.js, Quasar, TypeScript i narzędziami DevOps."
       },
-      {
-        "year": "2024",
-        "title": "Fullstack Blog",
-        "desc": "Własny projekt: React, Tailwind, Node.js, Express, MongoDB."
+      "security": {
+        "title": "Bezpieczeństwo",
+        "desc": "Nagłówki helmet, limit prób logowania, walidacja zod i HTML postów czyszczony przez DOMPurify."
       },
-      {
-        "year": "2021",
-        "title": "Pierwsze kroki",
-        "desc": "HTML, CSS i JavaScript: początek przygody z web developmentem."
+      "i18n": {
+        "title": "Polski i angielski",
+        "desc": "Pełne tłumaczenie interfejsu z przełącznikiem języka oraz jasny i ciemny motyw bez mignięcia przy starcie."
+      },
+      "tests": {
+        "title": "Testy",
+        "desc": "Testy API w Vitest i Supertest na MongoDB w pamięci: role, konto demo i walidacja."
       }
-    ]
+    }
   },
   "footer": {
     "description": "Blog o web developmencie. Zbudowany od zera w React, Express i MongoDB.",
