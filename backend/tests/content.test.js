@@ -101,3 +101,18 @@ describe("users", () => {
     expect(res.body.email).toBe("new@example.com");
   });
 });
+
+describe("stats", () => {
+  it("returns totals and six months of activity for admins only", async () => {
+    const reader = await signedInAgent(await createUser({ username: "reader" }));
+    await reader.get("/api/stats").expect(403);
+
+    const admin = await signedInAgent(await createUser({ username: "admin", isAdmin: true }));
+    await admin.post("/api/post/create").send(newPost);
+    const res = await admin.get("/api/stats").expect(200);
+
+    expect(res.body.totals).toEqual({ posts: 1, comments: 0, users: 2 });
+    expect(res.body.months).toHaveLength(6);
+    expect(res.body.months.at(-1).posts).toBe(1);
+  });
+});

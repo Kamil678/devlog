@@ -1,18 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
-import "./index.css";
-import { store, persistor } from "./app/store.js";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import ModeProvider from "./components/ModeProvider.jsx";
+import { HelmetProvider } from "react-helmet-async";
+import App from "./App.jsx";
+import { store, persistor } from "./app/store.js";
+import "./lib/i18n";
+import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <PersistGate persistor={persistor}>
+  <React.StrictMode>
     <Provider store={store}>
-      <ModeProvider>
-        <App />
-      </ModeProvider>
+      <PersistGate persistor={persistor}>
+        <HelmetProvider>
+          <App />
+        </HelmetProvider>
+      </PersistGate>
     </Provider>
-  </PersistGate>
+  </React.StrictMode>
 );

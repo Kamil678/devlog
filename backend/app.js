@@ -5,6 +5,7 @@ import userRoutes from "./routes/user.js";
 import authRoutes from "./routes/auth.js";
 import postRoutes from "./routes/post.js";
 import commentRoutes from "./routes/comment.js";
+import statsRoutes from "./routes/stats.js";
 import { errorMiddleware, notFound } from "./utils/error.js";
 
 export const createApp = () => {
@@ -20,6 +21,7 @@ export const createApp = () => {
   app.use("/api/auth", authRoutes);
   app.use("/api/post", postRoutes);
   app.use("/api/comment", commentRoutes);
+  app.use("/api/stats", statsRoutes);
 
   app.use("/api", notFound);
   app.use(errorMiddleware);

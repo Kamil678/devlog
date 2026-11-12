@@ -1,107 +1,100 @@
-import React, { useState } from "react";
-import Logo from "../components/ui/Logo";
-import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
-import { Link, useNavigate } from "react-router-dom";
-import GoogleAuth from "../components/GoogleAuth";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import Divider from "../components/auth/Divider";
+import GoogleButton from "../components/auth/GoogleButton";
+import PasswordInput from "../components/auth/PasswordInput";
+import Button from "../components/ui/Button";
+import { Input } from "../components/ui/Field";
+import { api } from "../lib/api";
+import { useErrorMessage } from "../hooks/useErrorMessage";
+import { useAuthRedirect } from "../hooks/useAuthRedirect";
+
+const validators = {
+  username: (v) =>
+    v.length < 3 ? "USERNAME_TOO_SHORT" : v.length > 30 ? "USERNAME_TOO_LONG" : !/^[a-zA-Z0-9._-]+$/.test(v) ? "USERNAME_INVALID_CHARS" : null,
+  email: (v) => (!/^\S+@\S+\.\S+$/.test(v) ? "EMAIL_INVALID" : null),
+  password: (v) => (v.length < 8 ? "PASSWORD_TOO_SHORT" : null),
+};
 
 export default function Signup() {
-  const [formData, setFormData] = useState({});
-  const [errMessage, setErrMessage] = useState(null);
+  const { t } = useTranslation();
+  const errorMessage = useErrorMessage();
+  const onSignedIn = useAuthRedirect();
+  const [form, setForm] = useState({ username: "", email: "", password: "" });
+  const [touched, setTouched] = useState({});
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
-  const changeInput = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
-  };
+  const fieldErrors = Object.fromEntries(Object.entries(validators).map(([key, check]) => [key, check(form[key].trim())]));
+  const isValid = Object.values(fieldErrors).every((e) => !e);
+  const fieldError = (name) => touched[name] && fieldErrors[name] && t(`errors.${fieldErrors[name]}`);
 
-  const getError = (message) => {
-    if (message.includes("duplicate key error collection")) {
-      return "Użytkownik z takim emeilem lub nazwą już istnieje.";
-    } else {
-      return "Coś poszło nie tak, spróbuj ponownie.";
-    }
-  };
+  const change = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const blur = (e) => setTouched({ ...touched, [e.target.name]: true });
 
-  const submitForm = async (e) => {
+  const submit = async (e) => {
     e.preventDefault();
+    setTouched({ username: true, email: true, password: true });
+    if (!isValid) return;
 
-    if (!formData.email || !formData.username || !formData.password) {
-      return setErrMessage("Proszę uzupełnić wszystkie wymagane pola.");
-    }
-
+    setError(null);
+    setLoading(true);
     try {
-      setLoading(true);
-      setErrMessage(null);
-
-      const response = await fetch("api/auth/signup", {
+      const user = await api("/auth/signup", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: { username: form.username.trim(), email: form.email.trim(), password: form.password },
       });
-
-      const data = await response.json();
-
-      if (data.success === false) {
-        setLoading(false);
-        return setErrMessage(getError(data.errMessage));
-      }
-      setLoading(false);
-
-      if (response.ok) {
-        navigate("/sign-in");
-      }
+      onSignedIn(user);
     } catch (err) {
-      setErrMessage(err.message);
+      setError(errorMessage(err));
+    } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen mt-60">
-      <div className="max-w-7xl p-3 mx-auto flex flex-col md:flex-row md:items-center gap-5">
-        <div className="flex-1">
-          <Logo textSize="text-4xl" />
-          <p className="text-sm mt-5">Stwórz swoje konto za pomocą emaila i hasła lub zaloguj się poprzez Google.</p>
-        </div>
-        <div className="flex-1">
-          <form className="flex flex-col gap-3" onSubmit={submitForm}>
-            <div>
-              <Label value="Email" />
-              <TextInput type="email" placeholder="Wpisz email" id="email" onChange={changeInput} />
-            </div>
-            <div>
-              <Label value="Nazwa użytkownika" />
-              <TextInput type="text" placeholder="Wpisz nazwę użytkownika" id="username" onChange={changeInput} />
-            </div>
-            <div>
-              <Label value="Hasło" />
-              <TextInput type="password" placeholder="Wpisz hasło" id="password" onChange={changeInput} />
-            </div>
-            <Button gradientDuoTone="purpleToBlue" type="submit" disabled={loading}>
-              {loading ? (
-                <>
-                  <Spinner size="sm" />
-                  <span className="pl-3">Zapisywanie...</span>
-                </>
-              ) : (
-                "Stwórz konto"
-              )}
-            </Button>
-            <GoogleAuth />
-          </form>
-          <div className="flex gap-1 text-sm mt-5">
-            <span>Masz już konto?</span>
-            <Link to="/sign-in" className="text-blue-500">
-              Zaloguj się
-            </Link>
-          </div>
-          {errMessage && (
-            <Alert className="mt-5" color="failure">
-              {errMessage}
-            </Alert>
-          )}
-        </div>
-      </div>
-    </div>
+    <>
+      <GoogleButton onSuccess={onSignedIn} label={t("auth.googleSignUp")} />
+      <Divider label={t("auth.or")} />
+      <form onSubmit={submit} className="flex flex-col gap-4" noValidate>
+        <Input
+          label={t("auth.username")}
+          name="username"
+          autoComplete="username"
+          value={form.username}
+          onChange={change}
+          onBlur={blur}
+          error={fieldError("username")}
+        />
+        <Input
+          label={t("auth.email")}
+          type="email"
+          name="email"
+          autoComplete="email"
+          value={form.email}
+          onChange={change}
+          onBlur={blur}
+          error={fieldError("email")}
+        />
+        <PasswordInput
+          label={t("auth.password")}
+          name="password"
+          autoComplete="new-password"
+          value={form.password}
+          onChange={change}
+          onBlur={blur}
+          error={fieldError("password")}
+          hint={t("auth.passwordHint")}
+        />
+        {error && (
+          <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-500/10 dark:text-red-300">
+            {error}
+          </p>
+        )}
+        <Button type="submit" variant="accent" className="mt-1 w-full font-semibold" loading={loading}>
+          {t("auth.createAccount")}
+        </Button>
+      </form>
+    </>
   );
 }

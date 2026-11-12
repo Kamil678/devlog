@@ -1,0 +1,331 @@
+{
+  "seo": {
+    "tagline": "blog o web developmencie",
+    "description": "Artykuły o React, Node.js i nowoczesnych narzędziach webowych. Konkretnie i z przykładami."
+  },
+  "nav": {
+    "home": "Start",
+    "articles": "Artykuły",
+    "howItWorks": "Jak to działa",
+    "signIn": "Zaloguj się",
+    "signOut": "Wyloguj się",
+    "profile": "Profil",
+    "dashboard": "Panel",
+    "newPost": "Nowy post",
+    "account": "Konto",
+    "menu": "Menu",
+    "main": "Nawigacja główna",
+    "language": "Język",
+    "toggleTheme": "Zmień motyw",
+    "skipToContent": "Przejdź do treści"
+  },
+  "common": {
+    "cancel": "Anuluj",
+    "close": "zamknij",
+    "delete": "Usuń",
+    "edit": "Edytuj",
+    "save": "Zapisz",
+    "saveChanges": "Zapisz zmiany",
+    "loadMore": "Pokaż więcej"
+  },
+  "home": {
+    "eyebrow": "Nowe artykuły co miesiąc",
+    "titleStart": "Web development",
+    "titleAccent": "bez lania wody.",
+    "subtitle": "Praktyczne artykuły o React, Node.js i narzędziach, z których korzystam na co dzień. Krótko, konkretnie, z przykładami kodu.",
+    "browse": "Przeglądaj artykuły",
+    "portfolio": "Portfolio",
+    "latestEyebrow": "Najnowsze",
+    "latestTitle": "Ostatnie artykuły",
+    "seeAll": "Zobacz wszystkie",
+    "emptyTitle": "Jeszcze nic tu nie ma",
+    "emptyDescription": "Pierwsze artykuły pojawią się wkrótce."
+  },
+  "search": {
+    "title": "Szukaj",
+    "short": "Szukaj artykułów…",
+    "placeholder": "Szukaj po tytule lub treści…",
+    "hint": "Wpisz co najmniej 2 znaki.",
+    "noQuickResults": "Brak wyników. Naciśnij Enter, aby zobaczyć pełne wyszukiwanie.",
+    "seeAll": "wszystkie wyniki",
+    "eyebrow": "Archiwum",
+    "pageTitle": "Artykuły",
+    "pageDescription": "Wszystkie wpisy w jednym miejscu. Filtruj po kategorii albo szukaj po frazie.",
+    "category": "Kategoria",
+    "allCategories": "Wszystkie kategorie",
+    "sort": "Sortowanie",
+    "newest": "Najnowsze",
+    "oldest": "Najstarsze",
+    "submit": "Szukaj",
+    "resultsCount_one": "{{count}} artykuł",
+    "resultsCount_few": "{{count}} artykuły",
+    "resultsCount_many": "{{count}} artykułów",
+    "resultsCount_other": "{{count}} artykułu",
+    "emptyTitle": "Nic nie znaleziono",
+    "emptyDescription": "Spróbuj innej frazy albo wyczyść filtry.",
+    "clear": "Wyczyść filtry"
+  },
+  "post": {
+    "back": "Wszystkie artykuły",
+    "readingTime_one": "{{count}} min czytania",
+    "readingTime_few": "{{count}} min czytania",
+    "readingTime_many": "{{count}} min czytania",
+    "readingTime_other": "{{count}} min czytania",
+    "toc": "Spis treści",
+    "copyLink": "Kopiuj link",
+    "linkCopied": "Link skopiowany",
+    "related": "Czytaj dalej"
+  },
+  "author": {
+    "writtenBy": "Autor",
+    "bio": "Frontend Developer. Piszę o tym, czego uczę się przy codziennej pracy z Vue, React i Node.js."
+  },
+  "comments": {
+    "title": "Komentarze",
+    "placeholder": "Napisz komentarz…",
+    "submit": "Dodaj komentarz",
+    "signInPrompt": "Zaloguj się, aby dodać komentarz.",
+    "empty": "Brak komentarzy. Bądź pierwszy!",
+    "deletedUser": "Usunięty użytkownik",
+    "author": "autor",
+    "like": "Polub",
+    "edit": "Edytuj komentarz",
+    "deleted": "Komentarz usunięty",
+    "deleteTitle": "Usunąć komentarz?",
+    "deleteDescription": "Tej operacji nie można cofnąć."
+  },
+  "auth": {
+    "signInTitle": "Witaj ponownie",
+    "signInDescription": "Zaloguj się, żeby komentować i polubiać wpisy.",
+    "signUpTitle": "Załóż konto",
+    "signUpDescription": "Zajmie Ci to mniej niż minutę.",
+    "email": "E-mail",
+    "password": "Hasło",
+    "username": "Nazwa użytkownika",
+    "passwordHint": "Co najmniej 8 znaków.",
+    "signIn": "Zaloguj się",
+    "createAccount": "Załóż konto",
+    "google": "Kontynuuj z Google",
+    "or": "lub",
+    "tabSignIn": "Logowanie",
+    "tabSignUp": "Rejestracja",
+    "tabsLabel": "Logowanie lub rejestracja",
+    "googleSignUp": "Zarejestruj się przez Google",
+    "showPassword": "Pokaż",
+    "hidePassword": "Ukryj",
+    "guestPrompt": "Tylko się rozglądasz?",
+    "guestLink": "Wejdź jako gość",
+    "guestHint": "Konto demo: panel administratora w trybie tylko do odczytu"
+  },
+  "demo": {
+    "dashboardNote": "Przeglądasz panel jako konto demo. Możesz oglądać wszystko, ale zapis jest wyłączony.",
+    "readOnlyNote": "Konto demo nie może dodawać komentarzy."
+  },
+  "dashboard": {
+    "tabs": {
+      "overview": "Przegląd",
+      "posts": "Posty",
+      "comments": "Komentarze",
+      "users": "Użytkownicy",
+      "profile": "Profil"
+    },
+    "posts": "Posty",
+    "comments": "Komentarze",
+    "users": "Użytkownicy",
+    "lastMonth": "w ostatnim miesiącu",
+    "activityTitle": "Aktywność",
+    "metric": "Miara",
+    "activitySubtitle": {
+      "posts": "Nowe posty w ostatnich 6 miesiącach",
+      "comments": "Nowe komentarze w ostatnich 6 miesiącach",
+      "users": "Nowi użytkownicy w ostatnich 6 miesiącach"
+    },
+    "recentPosts": "Ostatnie posty",
+    "recentComments": "Ostatnie komentarze",
+    "recentUsers": "Nowi użytkownicy",
+    "title": "Tytuł",
+    "category": "Kategoria",
+    "updated": "Zaktualizowano",
+    "actions": "Akcje",
+    "user": "Użytkownik",
+    "role": "Rola",
+    "reader": "czytelnik",
+    "joined": "Dołączył",
+    "comment": "Komentarz",
+    "likes": "Polubienia",
+    "added": "Dodano",
+    "postsCount_one": "{{count}} post",
+    "postsCount_few": "{{count}} posty",
+    "postsCount_many": "{{count}} postów",
+    "postsCount_other": "{{count}} posta",
+    "usersCount_one": "{{count}} użytkownik",
+    "usersCount_few": "{{count}} użytkowników",
+    "usersCount_many": "{{count}} użytkowników",
+    "usersCount_other": "{{count}} użytkownika",
+    "commentsCount_one": "{{count}} komentarz",
+    "commentsCount_few": "{{count}} komentarze",
+    "commentsCount_many": "{{count}} komentarzy",
+    "commentsCount_other": "{{count}} komentarza",
+    "noPosts": "Brak postów.",
+    "noUsers": "Brak użytkowników.",
+    "noComments": "Brak komentarzy.",
+    "postDeleted": "Post usunięty",
+    "userDeleted": "Użytkownik usunięty",
+    "deletePostTitle": "Usunąć post?",
+    "deletePostDescription": "Post i wszystkie jego komentarze zostaną trwale usunięte.",
+    "deleteUserTitle": "Usunąć użytkownika?",
+    "deleteUserDescription": "Konto i komentarze użytkownika zostaną trwale usunięte."
+  },
+  "profile": {
+    "changePhoto": "Zmień zdjęcie",
+    "photoHint": "JPG, PNG lub WebP, maksymalnie 5 MB.",
+    "newPassword": "Nowe hasło",
+    "passwordHint": "Zostaw puste, jeśli nie chcesz zmieniać.",
+    "saved": "Profil zaktualizowany",
+    "dangerTitle": "Strefa zagrożenia",
+    "dangerDescription": "Usunięcie konta jest trwałe i usuwa też Twoje komentarze.",
+    "deleteAccount": "Usuń konto",
+    "deleteTitle": "Usunąć konto?",
+    "deleteDescription": "Konto i wszystkie Twoje komentarze zostaną trwale usunięte."
+  },
+  "editor": {
+    "createTitle": "Nowy post",
+    "editTitle": "Edycja posta",
+    "title": "Tytuł",
+    "titlePlaceholder": "Tytuł posta",
+    "contentPlaceholder": "Zacznij pisać…",
+    "cover": "Okładka",
+    "removeCover": "Usuń okładkę",
+    "dropImage": "Upuść obraz lub kliknij, aby wybrać",
+    "imageLimit": "maks. {{mb}} MB",
+    "category": "Kategoria",
+    "categoryPlaceholder": "np. react",
+    "publish": "Opublikuj",
+    "saved": "Zapisano post",
+    "characters_one": "{{count}} znak",
+    "characters_few": "{{count}} znaki",
+    "characters_many": "{{count}} znaków",
+    "characters_other": "{{count}} znaku"
+  },
+  "stack": {
+    "eyebrow": "Pod maską",
+    "title": "Jak działa devlog",
+    "description": "devlog to projekt fullstack zbudowany od zera: aplikacja SPA w React, REST API w Express i baza MongoDB. Zobacz, co jest w środku i jak te części ze sobą rozmawiają.",
+    "tryDemo": "Wypróbuj demo",
+    "stackEyebrow": "Stack",
+    "stackTitle": "Z czego jest zbudowany",
+    "groups": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "services": "Usługi",
+      "quality": "Jakość"
+    },
+    "flowEyebrow": "Przepływ żądania",
+    "flowTitle": "Co się dzieje, gdy zapisujesz post",
+    "flowDescription": "Każde chronione żądanie przechodzi przez ten sam łańcuch middleware'ów, zanim dotrze do bazy.",
+    "steps": [
+      {
+        "title": "fetch(\"/api/...\")",
+        "desc": "Przeglądarka wysyła żądanie z ciasteczkiem httpOnly. Frontend i API są pod jedną domeną, więc CORS nie jest potrzebny."
+      },
+      {
+        "title": "verifyToken",
+        "desc": "Odczytuje JWT z ciasteczka i sprawdza podpis. Brak ważnego tokenu oznacza 401."
+      },
+      {
+        "title": "requireAdmin · blockDemo",
+        "desc": "Sprawdza rolę. Posty zapisuje tylko admin, a konto demo jest tylko do odczytu. W przeciwnym razie 403."
+      },
+      {
+        "title": "zod",
+        "desc": "Waliduje treść żądania. Błędy wracają jako kody, np. TITLE_TOO_SHORT, tłumaczone w interfejsie."
+      },
+      {
+        "title": "Mongoose",
+        "desc": "Kontroler zapisuje post w MongoDB i zwraca JSON w jednym, spójnym formacie."
+      },
+      {
+        "title": "React",
+        "desc": "Interfejs się odświeża i pokazuje powiadomienie. Stan sesji jest w Reduxie i przy starcie sprawdzany przez /auth/me."
+      }
+    ],
+    "featuresEyebrow": "Funkcje",
+    "featuresTitle": "Co możesz wypróbować",
+    "features": {
+      "auth": {
+        "title": "Logowanie",
+        "desc": "E-mail i hasło albo Google, weryfikowane na serwerze. Sesja JWT w ciasteczku httpOnly."
+      },
+      "admin": {
+        "title": "Panel administratora",
+        "desc": "Statystyki z wykresem z sześciu miesięcy, edytor z wgrywaniem obrazów i tabele postów, komentarzy i użytkowników."
+      },
+      "comments": {
+        "title": "Komentarze",
+        "desc": "Dodawanie, edycja, polubienia i usuwanie komentarzy pod każdym wpisem."
+      },
+      "security": {
+        "title": "Bezpieczeństwo",
+        "desc": "Nagłówki helmet, limit prób logowania, walidacja zod i HTML postów czyszczony przez DOMPurify."
+      },
+      "i18n": {
+        "title": "Polski i angielski",
+        "desc": "Pełne tłumaczenie interfejsu z przełącznikiem języka oraz jasny i ciemny motyw bez mignięcia przy starcie."
+      },
+      "tests": {
+        "title": "Testy",
+        "desc": "Testy API w Vitest i Supertest na MongoDB w pamięci: role, konto demo i walidacja."
+      }
+    }
+  },
+  "footer": {
+    "description": "Blog o web developmencie. Zbudowany od zera w React, Express i MongoDB.",
+    "blog": "Blog",
+    "elsewhere": "W sieci",
+    "sourceCode": "Kod źródłowy"
+  },
+  "notFound": {
+    "title": "Nie znaleziono strony",
+    "description": "Ta strona nie istnieje albo została przeniesiona.",
+    "home": "Wróć na start"
+  },
+  "errors": {
+    "GENERIC": "Coś poszło nie tak. Spróbuj ponownie.",
+    "NETWORK_ERROR": "Brak połączenia z serwerem.",
+    "INTERNAL_ERROR": "Błąd serwera. Spróbuj ponownie za chwilę.",
+    "VALIDATION_ERROR": "Sprawdź poprawność danych.",
+    "INVALID_CREDENTIALS": "Nieprawidłowy e-mail lub hasło.",
+    "INVALID_GOOGLE_TOKEN": "Nie udało się zweryfikować logowania Google.",
+    "UNAUTHORIZED": "Sesja wygasła. Zaloguj się ponownie.",
+    "FORBIDDEN": "Nie masz uprawnień do tej operacji.",
+    "DEMO_READ_ONLY": "Konto demo działa tylko w trybie do odczytu.",
+    "DEMO_UNAVAILABLE": "Konto demo nie jest jeszcze skonfigurowane.",
+    "TOO_MANY_REQUESTS": "Zbyt wiele prób. Spróbuj ponownie za kilka minut.",
+    "DUPLICATE_EMAIL": "Ten e-mail jest już zajęty.",
+    "DUPLICATE_USERNAME": "Ta nazwa użytkownika jest już zajęta.",
+    "DUPLICATE_TITLE": "Post o takim tytule już istnieje.",
+    "DUPLICATE_SLUG": "Post o takim tytule już istnieje.",
+    "NOT_FOUND": "Nie znaleziono.",
+    "POST_NOT_FOUND": "Nie znaleziono posta.",
+    "COMMENT_NOT_FOUND": "Nie znaleziono komentarza.",
+    "USER_NOT_FOUND": "Nie znaleziono użytkownika.",
+    "INVALID_ID": "Nieprawidłowy identyfikator.",
+    "NOTHING_TO_UPDATE": "Brak zmian do zapisania.",
+    "USERNAME_TOO_SHORT": "Nazwa użytkownika musi mieć co najmniej 3 znaki.",
+    "USERNAME_TOO_LONG": "Nazwa użytkownika może mieć maksymalnie 30 znaków.",
+    "USERNAME_INVALID_CHARS": "Dozwolone są litery, cyfry oraz . _ -",
+    "EMAIL_INVALID": "Podaj poprawny adres e-mail.",
+    "PASSWORD_TOO_SHORT": "Hasło musi mieć co najmniej 8 znaków.",
+    "PASSWORD_TOO_LONG": "Hasło jest za długie.",
+    "PASSWORD_REQUIRED": "Podaj hasło.",
+    "URL_INVALID": "Nieprawidłowy adres URL.",
+    "TITLE_TOO_SHORT": "Tytuł musi mieć co najmniej 3 znaki.",
+    "TITLE_TOO_LONG": "Tytuł może mieć maksymalnie 150 znaków.",
+    "CONTENT_TOO_SHORT": "Treść musi mieć co najmniej 20 znaków.",
+    "COMMENT_EMPTY": "Komentarz nie może być pusty.",
+    "COMMENT_TOO_LONG": "Komentarz może mieć maksymalnie 300 znaków.",
+    "IMAGE_INVALID_TYPE": "Wybierz plik graficzny.",
+    "IMAGE_TOO_LARGE": "Obraz może mieć maksymalnie 5 MB.",
+    "UPLOAD_FAILED": "Nie udało się wysłać obrazu."
+  }
+}

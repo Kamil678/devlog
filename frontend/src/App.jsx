@@ -1,43 +1,65 @@
-import React from "react";
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Dashboard from "./pages/Dashboard";
-import Projects from "./pages/Projects";
-import Signin from "./pages/Signin";
-import Signup from "./pages/Signup";
+import { Toaster } from "sonner";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
-import CreatePost from "./pages/CreatePost";
 import LoggedInRoute from "./components/LoggedInRoute";
 import OnlyAdminRoute from "./components/OnlyAdminRoute";
-import EditPost from "./pages/EditPost";
-import Post from "./components/posts/Post";
 import ScrollToTop from "./components/ScrollToTop";
-import Search from "./pages/Search";
+import Spinner from "./components/ui/Spinner";
+import Home from "./pages/Home";
+import { useSession } from "./hooks/useSession";
+import { useTheme } from "./lib/theme";
+
+const Stack = lazy(() => import("./pages/Stack"));
+const Search = lazy(() => import("./pages/Search"));
+const Post = lazy(() => import("./pages/Post"));
+const AuthLayout = lazy(() => import("./components/auth/AuthLayout"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const CreatePost = lazy(() => import("./pages/CreatePost"));
+const EditPost = lazy(() => import("./pages/EditPost"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+function PageFallback() {
+  return (
+    <div className="flex min-h-[60vh] items-center justify-center text-gray-400">
+      <Spinner className="h-6 w-6" />
+    </div>
+  );
+}
 
 export default function App() {
+  useSession();
+  const { theme } = useTheme();
+
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/sign-in" element={<Signin />} />
-        <Route path="/sign-up" element={<Signup />} />
-        <Route path="/about" element={<About />} />
-        <Route element={<LoggedInRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Route>
-        <Route element={<OnlyAdminRoute />}>
-          <Route path="/create-post" element={<CreatePost />} />
-          <Route path="/edit-post/:postId" element={<EditPost />} />
-        </Route>
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/post/:postSlug" element={<Post />} />
-      </Routes>
-      <Footer />
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <main id="main" className="flex-1">
+          <Suspense fallback={<PageFallback />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/post/:postSlug" element={<Post />} />
+              <Route path="/stack" element={<Stack />} />
+              <Route path="/sign-in" element={<AuthLayout />} />
+              <Route path="/sign-up" element={<AuthLayout />} />
+              <Route element={<LoggedInRoute />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+              </Route>
+              <Route element={<OnlyAdminRoute />}>
+                <Route path="/create-post" element={<CreatePost />} />
+                <Route path="/edit-post/:postId" element={<EditPost />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </main>
+        <Footer />
+      </div>
+      <Toaster theme={theme} position="bottom-right" richColors closeButton />
     </BrowserRouter>
   );
 }

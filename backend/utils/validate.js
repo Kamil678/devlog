@@ -23,9 +23,9 @@ const username = z
   .min(3, "USERNAME_TOO_SHORT")
   .max(30, "USERNAME_TOO_LONG")
   .regex(/^[a-zA-Z0-9._-]+$/, "USERNAME_INVALID_CHARS");
-const email = z.string().trim().toLowerCase().email("EMAIL_INVALID");
+const email = z.string().trim().toLowerCase().pipe(z.email("EMAIL_INVALID"));
 const password = z.string().min(8, "PASSWORD_TOO_SHORT").max(100, "PASSWORD_TOO_LONG");
-const url = z.string().url("URL_INVALID");
+const url = z.url("URL_INVALID");
 
 export const schemas = {
   signup: z.object({ username, email, password }),

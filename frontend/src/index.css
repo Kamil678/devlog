@@ -2,35 +2,93 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    @apply scroll-smooth antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  ::selection {
+    @apply bg-brand-500/20;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-950;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+  }
+
+  .bg-dots {
+    background-image: radial-gradient(theme("colors.gray.300") 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  .dark .bg-dots {
+    background-image: radial-gradient(theme("colors.gray.800") 1px, transparent 1px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.ql-toolbar.ql-snow,
+.ql-container.ql-snow {
+  @apply border-gray-200 dark:border-gray-800;
+}
+
+.ql-toolbar.ql-snow {
+  @apply rounded-t-xl bg-gray-50 dark:bg-gray-900;
+}
+
+.ql-container.ql-snow {
+  @apply rounded-b-xl;
+}
+
 .ql-editor {
-  font-size: 17px;
+  @apply min-h-[320px] text-base;
 }
 
-.post-content p {
-  margin-bottom: 0.5rem;
+.ql-editor.ql-blank::before {
+  @apply not-italic text-gray-400;
 }
 
-.post-content h1 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  font-family: sans-serif;
-  margin: 1.5rem 0;
+.dark .ql-snow .ql-stroke {
+  stroke: theme("colors.gray.300");
 }
 
-.post-content h1 {
-  font-size: 1.4rem;
-  font-family: sans-serif;
-  margin: 1.5rem 0;
+.dark .ql-snow .ql-fill {
+  fill: theme("colors.gray.300");
 }
 
-.post-content a {
-  text-decoration: none;
+.dark .ql-snow .ql-picker {
+  @apply text-gray-300;
 }
 
-.post-content a:hover {
-  text-decoration: underline;
+.dark .ql-snow .ql-picker-options {
+  @apply bg-gray-900;
 }
 
-.dark .post-content a {
-  color: rgb(76, 15, 243);
+.prose pre code {
+  @apply bg-transparent p-0 font-normal;
+}
+
+.prose pre {
+  scrollbar-width: thin;
+  scrollbar-color: theme("colors.gray.700") transparent;
 }

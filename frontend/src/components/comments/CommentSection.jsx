@@ -1,208 +1,171 @@
-import { Button, Modal, Textarea } from "flowbite-react";
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { HiOutlineChatBubbleOvalLeft } from "react-icons/hi2";
 import Comment from "./Comment";
-import { FaExpeditedssl } from "react-icons/fa";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
+import Avatar from "../ui/Avatar";
+import Button from "../ui/Button";
+import ConfirmDialog from "../ui/ConfirmDialog";
+import Skeleton from "../ui/Skeleton";
+import { api } from "../../lib/api";
+import { useApi } from "../../hooks/useApi";
+import { useErrorMessage } from "../../hooks/useErrorMessage";
+
+const MAX_LENGTH = 300;
 
 export default function CommentSection({ postId }) {
-  const { user } = useSelector((state) => state.user);
-  const [comment, setComment] = useState("");
-  const [allComments, setAllComments] = useState([]);
-  const [showDeleteCommentModal, setShowDeleteCommentModal] = useState(false);
-  const [commentIdToDelete, setCommentIdToDelete] = useState(null);
-
+  const { t } = useTranslation();
+  const errorMessage = useErrorMessage();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { user } = useSelector((state) => state.user);
+  const { data, loading, setData } = useApi(`/comment/getComments/${postId}`);
+  const [content, setContent] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [toDelete, setToDelete] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
-  const handleSubmitForm = async (e) => {
+  const comments = data?.comments ?? [];
+  const setComments = (updater) => setData((prev) => ({ ...prev, comments: updater(prev?.comments ?? []) }));
+
+  const requireUser = () => {
+    if (user) return true;
+    navigate("/sign-in", { state: { from: location.pathname } });
+    return false;
+  };
+
+  const submit = async (e) => {
     e.preventDefault();
-    if (comment.length > 300) {
-      return;
-    }
+    if (!content.trim()) return;
+    setSubmitting(true);
     try {
-      const res = await fetch("/api/comment/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ content: comment, postId, userId: user._id }),
-      });
-      const data = await res.json();
-
-      if (res.ok) {
-        setComment("");
-        setAllComments([data.comment, ...allComments]);
-        toast.success("Pomyślnie dodano komentarz");
-      } else {
-        toast.error("Nie udało się dodać komentarza");
-      }
+      const res = await api("/comment/create", { method: "POST", body: { content: content.trim(), postId } });
+      setComments((prev) => [res.comment, ...prev]);
+      setContent("");
     } catch (err) {
-      console.log(err);
-      toast.error("Nie udało się dodać komentarza");
+      toast.error(errorMessage(err));
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  useEffect(() => {
-    const getAllComments = async () => {
-      try {
-        const res = await fetch(`/api/comment/getComments/${postId}`);
-        if (res.ok) {
-          const data = await res.json();
-          setAllComments(data.comments);
-        } else {
-          return;
-        }
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
-    getAllComments();
-  }, [postId]);
-
-  const handleLikeComment = async (commentId) => {
+  const like = async (commentId) => {
+    if (!requireUser()) return;
     try {
-      if (!user) {
-        navigate("/sign-in");
-        return;
-      }
-
-      const res = await fetch(`/api/comment/like/${commentId}`, {
-        method: "PUT",
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        setAllComments(
-          allComments.map((comment) =>
-            comment._id === commentId
-              ? {
-                  ...comment,
-                  likes: data.likes,
-                  numberOfLikes: data.likes.length,
-                }
-              : comment,
-          ),
-        );
-      }
+      const updated = await api(`/comment/like/${commentId}`, { method: "PUT" });
+      setComments((prev) => prev.map((c) => (c._id === commentId ? updated : c)));
     } catch (err) {
-      console.log(err.message);
+      toast.error(errorMessage(err));
     }
   };
 
-  const handleEdit = async (comment, editedContent) => {
-    setAllComments(allComments.map((c) => (c._id === comment._id ? { ...c, content: editedContent } : c)));
+  const save = async (commentId, newContent) => {
+    try {
+      const updated = await api(`/comment/edit/${commentId}`, { method: "PUT", body: { content: newContent } });
+      setComments((prev) => prev.map((c) => (c._id === commentId ? updated : c)));
+      return true;
+    } catch (err) {
+      toast.error(errorMessage(err));
+      return false;
+    }
   };
 
-  const handleConfirmDeleteComment = async (commentId) => {
+  const confirmDelete = async () => {
+    setDeleting(true);
     try {
-      if (!user) {
-        navigate("/sign-in");
-        return;
-      }
-
-      const res = await fetch(`/api/comment/delete/${commentId}`, {
-        method: "DELETE",
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        setAllComments(allComments.filter((comment) => comment._id !== commentId));
-        setShowDeleteCommentModal(false);
-        toast.success(data);
-      } else {
-        toast.error("Nie udało się usunąć komentarza");
-      }
+      await api(`/comment/delete/${toDelete}`, { method: "DELETE" });
+      setComments((prev) => prev.filter((c) => c._id !== toDelete));
+      toast.success(t("comments.deleted"));
+      setToDelete(null);
     } catch (err) {
-      console.log(err.message);
+      toast.error(errorMessage(err));
+    } finally {
+      setDeleting(false);
     }
   };
 
   return (
-    <div className="max-w-2xl mx-auto w-full p-3">
+    <section className="mt-14" aria-labelledby="comments-title">
+      <h2 id="comments-title" className="flex items-center gap-2 text-xl font-bold tracking-tight">
+        {t("comments.title")}
+        <span className="rounded-full bg-gray-100 px-2 py-0.5 font-mono text-xs font-medium text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+          {comments.length}
+        </span>
+      </h2>
+
       {user ? (
-        <div className="flex items-center gap-1 my-5 text-gray-500 text-sm">
-          <p>Zalogowany użytkownik:</p>
-          <img src={user.picture} alt="Logged user picture" className="h-7 w-7 object-cover rounded-full" />
-          <Link to="/dashboard?tab=profile" className="text-xs text-cyan-600 hover:underline">
-            {user.username}
-          </Link>
-        </div>
-      ) : (
-        <div className="text-sm my-5 flex items-center gap-5">
-          <p>Musisz być zalogowany aby dodać komentarz</p>
-          <Link to={"/sign-in"} className="">
-            <Button gradientDuoTone="cyanToBlue" outline>
-              Zaloguj się
-            </Button>
-          </Link>
-        </div>
-      )}
-      {user && (
-        <form className="border border-teal-500 rounded-md p-3" onSubmit={handleSubmitForm}>
-          <Textarea
-            placeholder="Dodaj komentarz..."
-            rows="4"
-            maxLength="300"
-            onChange={(e) => setComment(e.target.value)}
-            value={comment}
-          />
-          <div className="flex justify-between items-center mt-4">
-            <p className="text-gray-500 text-sm">{comment.length}/300</p>
-            <Button type="submit" gradientDuoTone="cyanToBlue" outline>
-              Dodaj
+        <form onSubmit={submit} className="mt-6 rounded-2xl border border-gray-200 p-4 focus-within:border-brand-500 dark:border-gray-800">
+          <div className="flex gap-3">
+            <Avatar src={user.picture} name={user.username} size="md" />
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              maxLength={MAX_LENGTH}
+              rows={3}
+              placeholder={t("comments.placeholder")}
+              aria-label={t("comments.placeholder")}
+              className="w-full resize-none bg-transparent text-sm outline-none placeholder:text-gray-400 focus-visible:ring-0"
+            />
+          </div>
+          <div className="mt-3 flex items-center justify-between">
+            <span className="font-mono text-xs text-gray-400">
+              {content.length}/{MAX_LENGTH}
+            </span>
+            <Button type="submit" size="sm" loading={submitting} disabled={!content.trim()}>
+              {t("comments.submit")}
             </Button>
           </div>
         </form>
-      )}
-      {allComments.length > 0 ? (
-        <>
-          <div className="flex items-center my-5 text-sm gap-2">
-            <p>Ilość komentarzy: </p>
-            <div className="border border-gray-500 py-1 px-2 rounded-md">
-              <p>{allComments.length}</p>
-            </div>
-          </div>
-          {allComments.map((comment) => (
-            <Comment
-              key={comment._id}
-              comment={comment}
-              onLike={handleLikeComment}
-              onEdit={handleEdit}
-              onDelete={(commentId) => {
-                setShowDeleteCommentModal(true);
-                setCommentIdToDelete(commentId);
-              }}
-            />
-          ))}
-        </>
       ) : (
-        <div>
-          <p className="text-sm my-5">Nie ma jeszcze komentarzy do tego posta</p>
+        <div className="mt-6 flex flex-col items-start gap-3 rounded-2xl border border-dashed border-gray-300 p-5 sm:flex-row sm:items-center sm:justify-between dark:border-gray-700">
+          <p className="text-sm text-gray-500">{t("comments.signInPrompt")}</p>
+          <Button size="sm" to="/sign-in" state={{ from: location.pathname }}>
+            {t("nav.signIn")}
+          </Button>
         </div>
       )}
-      <Modal show={showDeleteCommentModal} size="md" onClose={() => setShowDeleteCommentModal(false)} popup>
-        <Modal.Header />
-        <Modal.Body>
-          <div className="text-center">
-            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Czy jesteś pewien, że chcesz usunąć ten komentarz?
-            </h3>
-            <div className="flex justify-center gap-4">
-              <Button color="failure" onClick={() => handleConfirmDeleteComment(commentIdToDelete)}>
-                Tak
-              </Button>
-              <Button color="gray" onClick={() => setShowDeleteCommentModal(false)}>
-                Nie
-              </Button>
+
+      {loading ? (
+        <div className="mt-6 space-y-6">
+          {[0, 1].map((i) => (
+            <div key={i} className="flex gap-3">
+              <Skeleton className="h-9 w-9 rounded-full" />
+              <div className="flex-1 space-y-2">
+                <Skeleton className="h-3 w-32" />
+                <Skeleton className="h-4 w-full" />
+              </div>
             </div>
-          </div>
-        </Modal.Body>
-      </Modal>
-      <ToastContainer />
-    </div>
+          ))}
+        </div>
+      ) : comments.length === 0 ? (
+        <div className="mt-8 flex flex-col items-center py-6 text-center text-sm text-gray-500">
+          <HiOutlineChatBubbleOvalLeft className="mb-2 h-6 w-6" />
+          {t("comments.empty")}
+        </div>
+      ) : (
+        <ul className="mt-4 divide-y divide-gray-200 dark:divide-gray-800">
+          {comments.map((comment) => (
+            <Comment key={comment._id} comment={comment} onLike={like} onSave={save} onDelete={setToDelete} />
+          ))}
+        </ul>
+      )}
+
+      <ConfirmDialog
+        open={Boolean(toDelete)}
+        onClose={() => setToDelete(null)}
+        onConfirm={confirmDelete}
+        loading={deleting}
+        title={t("comments.deleteTitle")}
+        description={t("comments.deleteDescription")}
+      />
+
+      {user?.isDemo && (
+        <p className="mt-4 text-xs text-gray-500">
+          {t("demo.readOnlyNote")} <Link to="/sign-up" className="underline">{t("auth.createAccount")}</Link>
+        </p>
+      )}
+    </section>
   );
 }

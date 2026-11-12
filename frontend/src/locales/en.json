@@ -1,0 +1,319 @@
+{
+  "seo": {
+    "tagline": "a web development blog",
+    "description": "Articles about React, Node.js and modern web tooling. Practical and to the point."
+  },
+  "nav": {
+    "home": "Home",
+    "articles": "Articles",
+    "howItWorks": "How it works",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "profile": "Profile",
+    "dashboard": "Dashboard",
+    "newPost": "New post",
+    "account": "Account",
+    "menu": "Menu",
+    "main": "Main navigation",
+    "language": "Language",
+    "toggleTheme": "Toggle theme",
+    "skipToContent": "Skip to content"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "close": "close",
+    "delete": "Delete",
+    "edit": "Edit",
+    "save": "Save",
+    "saveChanges": "Save changes",
+    "loadMore": "Load more"
+  },
+  "home": {
+    "eyebrow": "New articles every month",
+    "titleStart": "Web development,",
+    "titleAccent": "no fluff.",
+    "subtitle": "Practical articles about React, Node.js and the tools I use every day. Short, concrete, with code examples.",
+    "browse": "Browse articles",
+    "portfolio": "Portfolio",
+    "latestEyebrow": "Latest",
+    "latestTitle": "Recent articles",
+    "seeAll": "See all",
+    "emptyTitle": "Nothing here yet",
+    "emptyDescription": "The first articles are coming soon."
+  },
+  "search": {
+    "title": "Search",
+    "short": "Search articles…",
+    "placeholder": "Search by title or content…",
+    "hint": "Type at least 2 characters.",
+    "noQuickResults": "No matches. Press Enter for full search.",
+    "seeAll": "all results",
+    "eyebrow": "Archive",
+    "pageTitle": "Articles",
+    "pageDescription": "Every post in one place. Filter by category or search by phrase.",
+    "category": "Category",
+    "allCategories": "All categories",
+    "sort": "Sort",
+    "newest": "Newest",
+    "oldest": "Oldest",
+    "submit": "Search",
+    "resultsCount_one": "{{count}} article",
+    "resultsCount_other": "{{count}} articles",
+    "emptyTitle": "Nothing found",
+    "emptyDescription": "Try a different phrase or clear the filters.",
+    "clear": "Clear filters"
+  },
+  "post": {
+    "back": "All articles",
+    "readingTime_one": "{{count}} min read",
+    "readingTime_other": "{{count}} min read",
+    "toc": "On this page",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied",
+    "related": "Keep reading"
+  },
+  "author": {
+    "writtenBy": "Written by",
+    "bio": "Frontend Developer. I write about what I learn while working with Vue, React and Node.js every day."
+  },
+  "comments": {
+    "title": "Comments",
+    "placeholder": "Write a comment…",
+    "submit": "Post comment",
+    "signInPrompt": "Sign in to join the discussion.",
+    "empty": "No comments yet. Be the first!",
+    "deletedUser": "Deleted user",
+    "author": "author",
+    "like": "Like",
+    "edit": "Edit comment",
+    "deleted": "Comment deleted",
+    "deleteTitle": "Delete comment?",
+    "deleteDescription": "This action cannot be undone."
+  },
+  "auth": {
+    "signInTitle": "Welcome back",
+    "signInDescription": "Sign in to comment on and like posts.",
+    "signUpTitle": "Create an account",
+    "signUpDescription": "It takes less than a minute.",
+    "email": "Email",
+    "password": "Password",
+    "username": "Username",
+    "passwordHint": "At least 8 characters.",
+    "signIn": "Sign in",
+    "createAccount": "Create account",
+    "google": "Continue with Google",
+    "or": "or",
+    "tabSignIn": "Sign in",
+    "tabSignUp": "Sign up",
+    "tabsLabel": "Sign in or sign up",
+    "googleSignUp": "Sign up with Google",
+    "showPassword": "Show",
+    "hidePassword": "Hide",
+    "guestPrompt": "Just looking around?",
+    "guestLink": "Enter as guest",
+    "guestHint": "Demo account: admin dashboard in read-only mode"
+  },
+  "demo": {
+    "dashboardNote": "You are browsing as the demo account. You can look at everything, but saving is disabled.",
+    "readOnlyNote": "The demo account cannot post comments."
+  },
+  "dashboard": {
+    "tabs": {
+      "overview": "Overview",
+      "posts": "Posts",
+      "comments": "Comments",
+      "users": "Users",
+      "profile": "Profile"
+    },
+    "posts": "Posts",
+    "comments": "Comments",
+    "users": "Users",
+    "lastMonth": "in the last month",
+    "activityTitle": "Activity",
+    "metric": "Metric",
+    "activitySubtitle": {
+      "posts": "New posts over the last 6 months",
+      "comments": "New comments over the last 6 months",
+      "users": "New users over the last 6 months"
+    },
+    "recentPosts": "Recent posts",
+    "recentComments": "Recent comments",
+    "recentUsers": "New users",
+    "title": "Title",
+    "category": "Category",
+    "updated": "Updated",
+    "actions": "Actions",
+    "user": "User",
+    "role": "Role",
+    "reader": "reader",
+    "joined": "Joined",
+    "comment": "Comment",
+    "likes": "Likes",
+    "added": "Added",
+    "postsCount_one": "{{count}} post",
+    "postsCount_other": "{{count}} posts",
+    "usersCount_one": "{{count}} user",
+    "usersCount_other": "{{count}} users",
+    "commentsCount_one": "{{count}} comment",
+    "commentsCount_other": "{{count}} comments",
+    "noPosts": "No posts.",
+    "noUsers": "No users.",
+    "noComments": "No comments.",
+    "postDeleted": "Post deleted",
+    "userDeleted": "User deleted",
+    "deletePostTitle": "Delete post?",
+    "deletePostDescription": "The post and all its comments will be permanently removed.",
+    "deleteUserTitle": "Delete user?",
+    "deleteUserDescription": "The account and its comments will be permanently removed."
+  },
+  "profile": {
+    "changePhoto": "Change photo",
+    "photoHint": "JPG, PNG or WebP, up to 5 MB.",
+    "newPassword": "New password",
+    "passwordHint": "Leave empty to keep the current one.",
+    "saved": "Profile updated",
+    "dangerTitle": "Danger zone",
+    "dangerDescription": "Deleting your account is permanent and also removes your comments.",
+    "deleteAccount": "Delete account",
+    "deleteTitle": "Delete account?",
+    "deleteDescription": "Your account and all your comments will be permanently removed."
+  },
+  "editor": {
+    "createTitle": "New post",
+    "editTitle": "Edit post",
+    "title": "Title",
+    "titlePlaceholder": "Post title",
+    "contentPlaceholder": "Start writing…",
+    "cover": "Cover image",
+    "removeCover": "Remove cover",
+    "dropImage": "Drop an image or click to choose",
+    "imageLimit": "max {{mb}} MB",
+    "category": "Category",
+    "categoryPlaceholder": "e.g. react",
+    "publish": "Publish",
+    "saved": "Post saved",
+    "characters_one": "{{count}} character",
+    "characters_other": "{{count}} characters"
+  },
+  "stack": {
+    "eyebrow": "Under the hood",
+    "title": "How devlog works",
+    "description": "devlog is a full-stack project built from scratch: a React SPA, a REST API in Express and a MongoDB database. Here is what is inside and how the parts talk to each other.",
+    "tryDemo": "Try the demo",
+    "stackEyebrow": "Stack",
+    "stackTitle": "What it is built with",
+    "groups": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "services": "Services",
+      "quality": "Quality"
+    },
+    "flowEyebrow": "Request flow",
+    "flowTitle": "What happens when you save a post",
+    "flowDescription": "Every protected request goes through the same chain of middleware before it reaches the database.",
+    "steps": [
+      {
+        "title": "fetch(\"/api/...\")",
+        "desc": "The browser sends the request with an httpOnly cookie. The frontend and the API share one domain, so no CORS is needed."
+      },
+      {
+        "title": "verifyToken",
+        "desc": "Reads the JWT from the cookie and checks its signature. No valid token means 401."
+      },
+      {
+        "title": "requireAdmin · blockDemo",
+        "desc": "Checks the role. Only admins can write posts, and the demo account is read-only. Otherwise 403."
+      },
+      {
+        "title": "zod",
+        "desc": "Validates the request body. Errors come back as codes like TITLE_TOO_SHORT, translated in the UI."
+      },
+      {
+        "title": "Mongoose",
+        "desc": "The controller saves the post in MongoDB and returns JSON in one consistent shape."
+      },
+      {
+        "title": "React",
+        "desc": "The UI updates and shows a toast. Session state lives in Redux and is checked against /auth/me on startup."
+      }
+    ],
+    "featuresEyebrow": "Features",
+    "featuresTitle": "What you can try",
+    "features": {
+      "auth": {
+        "title": "Authentication",
+        "desc": "Email and password or Google sign-in verified on the server. JWT session in an httpOnly cookie."
+      },
+      "admin": {
+        "title": "Admin dashboard",
+        "desc": "Stats with a six-month chart, a rich-text editor with image upload, and tables for posts, comments and users."
+      },
+      "comments": {
+        "title": "Comments",
+        "desc": "Add, edit, like and delete comments under every post."
+      },
+      "security": {
+        "title": "Security",
+        "desc": "helmet headers, rate-limited sign-in, zod validation and post HTML sanitized with DOMPurify."
+      },
+      "i18n": {
+        "title": "Polish and English",
+        "desc": "Full UI translation with a language switcher, plus light and dark theme without a flash on load."
+      },
+      "tests": {
+        "title": "Tests",
+        "desc": "API tests with Vitest and Supertest on an in-memory MongoDB, covering roles, the demo account and validation."
+      }
+    }
+  },
+  "footer": {
+    "description": "A web development blog, built from scratch with React, Express and MongoDB.",
+    "blog": "Blog",
+    "elsewhere": "Elsewhere",
+    "sourceCode": "Source code"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "This page does not exist or has been moved.",
+    "home": "Back home"
+  },
+  "errors": {
+    "GENERIC": "Something went wrong. Please try again.",
+    "NETWORK_ERROR": "Can't reach the server.",
+    "INTERNAL_ERROR": "Server error. Please try again shortly.",
+    "VALIDATION_ERROR": "Please check your input.",
+    "INVALID_CREDENTIALS": "Invalid email or password.",
+    "INVALID_GOOGLE_TOKEN": "Google sign-in could not be verified.",
+    "UNAUTHORIZED": "Your session expired. Please sign in again.",
+    "FORBIDDEN": "You are not allowed to do that.",
+    "DEMO_READ_ONLY": "The demo account is read-only.",
+    "DEMO_UNAVAILABLE": "The demo account is not set up yet.",
+    "TOO_MANY_REQUESTS": "Too many attempts. Try again in a few minutes.",
+    "DUPLICATE_EMAIL": "This email is already taken.",
+    "DUPLICATE_USERNAME": "This username is already taken.",
+    "DUPLICATE_TITLE": "A post with this title already exists.",
+    "DUPLICATE_SLUG": "A post with this title already exists.",
+    "NOT_FOUND": "Not found.",
+    "POST_NOT_FOUND": "Post not found.",
+    "COMMENT_NOT_FOUND": "Comment not found.",
+    "USER_NOT_FOUND": "User not found.",
+    "INVALID_ID": "Invalid identifier.",
+    "NOTHING_TO_UPDATE": "Nothing to save.",
+    "USERNAME_TOO_SHORT": "Username must be at least 3 characters.",
+    "USERNAME_TOO_LONG": "Username can be at most 30 characters.",
+    "USERNAME_INVALID_CHARS": "Use letters, numbers and . _ - only.",
+    "EMAIL_INVALID": "Enter a valid email address.",
+    "PASSWORD_TOO_SHORT": "Password must be at least 8 characters.",
+    "PASSWORD_TOO_LONG": "Password is too long.",
+    "PASSWORD_REQUIRED": "Enter your password.",
+    "URL_INVALID": "Invalid URL.",
+    "TITLE_TOO_SHORT": "Title must be at least 3 characters.",
+    "TITLE_TOO_LONG": "Title can be at most 150 characters.",
+    "CONTENT_TOO_SHORT": "Content must be at least 20 characters.",
+    "COMMENT_EMPTY": "Comment can't be empty.",
+    "COMMENT_TOO_LONG": "Comment can be at most 300 characters.",
+    "IMAGE_INVALID_TYPE": "Choose an image file.",
+    "IMAGE_TOO_LARGE": "Image can be at most 5 MB.",
+    "UPLOAD_FAILED": "Image upload failed."
+  }
+}

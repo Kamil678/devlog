@@ -1,5 +1,5 @@
 {
-  "name": "fullstack-blog",
+  "name": "devlog",
   "version": "1.0.0",
   "description": "Full-stack MERN blog with admin dashboard, comments and Google sign-in",
   "type": "module",
