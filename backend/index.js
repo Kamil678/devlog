@@ -1,44 +1,17 @@
-import express from "express";
-import mongoose from "mongoose";
 import dotenv from "dotenv";
-import userRoutes from "./routes/user.js";
-import authRoutes from "./routes/auth.js";
-import postRoutes from "./routes/post.js";
-import commentRoutes from "./routes/comment.js";
-import cookieParser from "cookie-parser";
+import { createApp } from "./app.js";
+import { connectDB } from "./utils/db.js";
 
 dotenv.config();
 
-const app = express();
+const port = process.env.PORT || 3000;
 
-app.use(express.json());
-app.use(cookieParser());
-
-app.listen(3000, () => {
-  mongoose
-    .connect(process.env.MONGO_CONNECTION)
-    .then(() => {
-      console.log("MongoDB is connected");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
-app.use("/api/user", userRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/post", postRoutes);
-app.use("/api/comment", commentRoutes);
-
-app.use((err, req, res, next) => {
-  const errStatusCode = err.statusCode || 500;
-  const errMessage = err.message || "Internl server error";
-  const errException = err.exception;
-
-  res.status(errStatusCode).json({
-    success: false,
-    errStatusCode,
-    errMessage,
-    errException,
+connectDB()
+  .then(() => {
+    console.log("MongoDB is connected");
+    createApp().listen(port, () => console.log(`API listening on http://localhost:${port}`));
+  })
+  .catch((err) => {
+    console.error("MongoDB connection failed:", err.message);
+    process.exit(1);
   });
-});

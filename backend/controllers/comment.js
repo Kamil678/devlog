@@ -1,184 +1,90 @@
 import { errorHandler } from "../utils/error.js";
 import Comment from "../models/comment.js";
+import Post from "../models/post.js";
+
+const oneMonthAgo = () => {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+};
+
+const findComment = async (commentId, next) => {
+  const comment = await Comment.findById(commentId);
+  if (!comment) {
+    next(errorHandler(404, "COMMENT_NOT_FOUND", "Comment not found."));
+  }
+  return comment;
+};
 
 export const createComment = async (req, res, next) => {
-  try {
-    const { content, postId, userId } = req.body;
-    if (req.user.id !== userId) {
-      return next(
-        errorHandler(
-          403,
-          "You are not allowed to cretae a post.",
-          "Nie masz uprawnień do dodania komentarza."
-        )
-      );
-    }
+  const { content, postId } = req.body;
 
-    if (!content) {
-      return next(
-        errorHandler(
-          403,
-          "Please provide all required fields.",
-          "Proszę uzupełnić wszystkie obowiązkowe pola."
-        )
-      );
-    }
-
-    const newComment = new Comment({
-      content,
-      postId,
-      userId,
-    });
-
-    const savedComment = await newComment.save();
-
-    res.status(201).json({ success: true, comment: savedComment });
-  } catch (err) {
-    next(err);
+  if (!(await Post.exists({ _id: postId }))) {
+    return next(errorHandler(404, "POST_NOT_FOUND", "Post not found."));
   }
+
+  const savedComment = await Comment.create({ content, postId, userId: req.user.id });
+
+  res.status(201).json({ success: true, comment: savedComment });
 };
 
-export const getComments = async (req, res, next) => {
-  try {
-    const comments = await Comment.find({ postId: req.params.postId }).sort({
-      createdAt: -1,
-    });
+export const getComments = async (req, res) => {
+  const comments = await Comment.find({ postId: req.params.postId }).sort({ createdAt: -1 });
 
-    res.status(200).json({ success: true, comments: comments });
-  } catch (err) {
-    next(err);
-  }
+  res.status(200).json({ success: true, comments });
 };
 
-export const getAllComments = async (req, res, next) => {
-  if (!req.user.isAdmin) {
-    return next(
-      errorHandler(
-        403,
-        "You are not allowed to cretae a post.",
-        "Nie masz uprawnień do tworzenia postów."
-      )
-    );
-  }
+export const getAllComments = async (req, res) => {
+  const startIndex = parseInt(req.query.startIndex) || 0;
+  const limit = Math.min(parseInt(req.query.limit) || 9, 50);
+  const sortDirection = req.query.order === "asc" ? 1 : -1;
 
-  try {
-    const startIndex = parseInt(req.query.startIndex) || 0;
-    const limit = parseInt(req.query.limit) || 9;
-    const sortDirection = req.query.order === "asc" ? 1 : -1;
+  const [comments, totalComments, lastMonthComments] = await Promise.all([
+    Comment.find().sort({ createdAt: sortDirection }).skip(startIndex).limit(limit),
+    Comment.countDocuments(),
+    Comment.countDocuments({ createdAt: { $gte: oneMonthAgo() } }),
+  ]);
 
-    const comments = await Comment.find()
-      .sort({ created: sortDirection })
-      .skip(startIndex)
-      .limit(limit);
-
-    const totalComments = await Comment.countDocuments();
-    const now = new Date();
-
-    const oneMonthAgo = new Date(
-      now.getFullYear(),
-      now.getMonth() - 1,
-      now.getDate()
-    );
-
-    const lastMonthComments = await Comment.countDocuments({
-      createdAt: { $gte: oneMonthAgo },
-    });
-    res
-      .status(200)
-      .json({
-        success: true,
-        comments: comments,
-        totalComments,
-        lastMonthComments,
-      });
-  } catch (err) {
-    next(err);
-  }
+  res.status(200).json({ success: true, comments, totalComments, lastMonthComments });
 };
 
 export const likeComment = async (req, res, next) => {
-  try {
-    const comment = await Comment.findById(req.params.commentId);
+  const comment = await findComment(req.params.commentId, next);
+  if (!comment) return;
 
-    if (!comment) {
-      return next(
-        errorHandler(404, "Comment not found", "Nie znaleziono komentarza")
-      );
-    }
-
-    const userIndex = comment.likes.indexOf(req.user.id);
-    if (userIndex === -1) {
-      comment.numberOfLikes += 1;
-      comment.likes.push(req.user.id);
-    } else {
-      comment.numberOfLikes -= 1;
-      comment.likes.splice(userIndex, 1);
-    }
-
-    await comment.save();
-
-    res.status(200).json(comment);
-  } catch (err) {
-    next(err);
+  const userIndex = comment.likes.indexOf(req.user.id);
+  if (userIndex === -1) {
+    comment.likes.push(req.user.id);
+  } else {
+    comment.likes.splice(userIndex, 1);
   }
+  comment.numberOfLikes = comment.likes.length;
+
+  await comment.save();
+  res.status(200).json(comment);
 };
 
 export const editComment = async (req, res, next) => {
-  try {
-    const comment = await Comment.findById(req.params.commentId);
+  const comment = await findComment(req.params.commentId, next);
+  if (!comment) return;
 
-    if (!comment) {
-      return next(
-        errorHandler(404, "Comment not found", "Nie znaleziono komentarza")
-      );
-    }
-
-    if (comment.userId !== req.user.id) {
-      return next(
-        errorHandler(
-          403,
-          "You are not allowed to edit this comment",
-          "Nie masz uprawnień do edytowania tego komentarza."
-        )
-      );
-    }
-
-    const editedComment = await Comment.findByIdAndUpdate(
-      req.params.commentId,
-      { content: req.body.content },
-      { new: true }
-    );
-
-    res.status(200).json(editedComment);
-  } catch (err) {
-    next(err);
+  if (comment.userId !== req.user.id && !req.user.isAdmin) {
+    return next(errorHandler(403, "FORBIDDEN", "You are not allowed to edit this comment."));
   }
+
+  comment.content = req.body.content;
+  await comment.save();
+
+  res.status(200).json(comment);
 };
 
 export const deleteComment = async (req, res, next) => {
-  try {
-    const comment = await Comment.findById(req.params.commentId);
+  const comment = await findComment(req.params.commentId, next);
+  if (!comment) return;
 
-    if (!comment) {
-      return next(
-        errorHandler(404, "Comment not found", "Nie znaleziono komentarza")
-      );
-    }
-
-    if (comment.userId !== req.user.id && !req.user.isAdmin) {
-      return next(
-        errorHandler(
-          403,
-          "You are not allowed to edit this comment",
-          "Nie masz uprawnień do edytowania tego komentarza."
-        )
-      );
-    }
-
-    await Comment.findByIdAndDelete(req.params.commentId);
-
-    res.status(200).json("Komentarz został poprawnie usunięty");
-  } catch (err) {
-    next(err);
+  if (comment.userId !== req.user.id && !req.user.isAdmin) {
+    return next(errorHandler(403, "FORBIDDEN", "You are not allowed to delete this comment."));
   }
+
+  await comment.deleteOne();
+  res.status(200).json({ success: true });
 };

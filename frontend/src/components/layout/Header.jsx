@@ -55,23 +55,25 @@ export default function Header() {
 
   return (
     <Navbar className="sticky top-0 z-50 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md px-4 sm:px-6">
-      <Logo textSize="text-sm sm:text-xl" />
+      <div className="flex items-center gap-4">
+        <Logo textSize="text-sm sm:text-xl" />
 
-      <form onSubmit={handleSubmitSearchForm} className="hidden lg:block">
-        <div className="relative">
-          <AiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 w-4 h-4 z-10" />
-          <Input placeholder="Szukaj..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-        </div>
-      </form>
+        <form onSubmit={handleSubmitSearchForm} className="hidden lg:block">
+          <div className="relative">
+            <AiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 w-4 h-4 z-10" />
+            <Input placeholder="Szukaj..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+          </div>
+        </form>
 
-      <Button
-        onClick={() => navigate("/search")}
-        className="w-9 h-9 lg:hidden rounded-md border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800/60 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 focus:ring-0 [&>span]:p-0 [&>span]:flex [&>span]:items-center [&>span]:justify-center"
-        color="gray"
-        pill
-      >
-        <AiOutlineSearch className="w-4 h-4" />
-      </Button>
+        <Button
+          onClick={() => navigate("/search")}
+          className="w-9 h-9 lg:hidden rounded-md border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800/60 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 focus:ring-0 [&>span]:p-0 [&>span]:flex [&>span]:items-center [&>span]:justify-center"
+          color="gray"
+          pill
+        >
+          <AiOutlineSearch className="w-4 h-4" />
+        </Button>
+      </div>
 
       <div className="flex items-center gap-2 md:order-2">
         <ThemeToggle mode={mode} onToggle={() => dispatch(toggleMode())} />

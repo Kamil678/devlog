@@ -1,167 +1,89 @@
 import bcryptjs from "bcryptjs";
 import User from "../models/user.js";
+import Comment from "../models/comment.js";
 import { errorHandler } from "../utils/error.js";
+import { clearToken } from "../utils/checkUserAuthentication.js";
 
-export const testUser = (req, res) => {
-  res.json({ message: "API działa!!!!" });
+const withoutPassword = (user) => {
+  const { password, ...rest } = user._doc;
+  return rest;
+};
+
+const maskEmail = (email) => email.replace(/^(.).*(@.*)$/, "$1***$2");
+
+const oneMonthAgo = () => {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
 };
 
 export const updateUser = async (req, res, next) => {
   if (req.user.id !== req.params.userId) {
-    return next(
-      errorHandler(
-        403,
-        "You are not allowed to update this user.",
-        "Nie masz uprawnień do aktualizowania tego użytkownika."
-      )
-    );
+    return next(errorHandler(403, "FORBIDDEN", "You are not allowed to update this user."));
   }
 
-  if (req.body.password) {
-    if (req.body.password.length < 5) {
-      return next(
-        errorHandler(
-          400,
-          "Password must be at least 5 characters.",
-          "Hasło musi mieć co najmniej 6 znaków."
-        )
-      );
-    }
-
-    req.body.password = bcryptjs.hashSync(req.body.password, 10);
+  const update = { ...req.body };
+  if (update.password) {
+    update.password = await bcryptjs.hash(update.password, 10);
   }
 
-  if (req.body.username) {
-    if (req.body.username.length < 5 || req.body.username.length > 30) {
-      return next(
-        errorHandler(
-          400,
-          "Username must be at between 5 and 30 characters.",
-          "Nazwa użytkownika musi mieć od 5 do 30 znaków."
-        )
-      );
-    }
+  const updatedUser = await User.findByIdAndUpdate(req.params.userId, { $set: update }, { new: true });
 
-    if (req.body.username.includes(" ")) {
-      return next(
-        errorHandler(
-          400,
-          "Username cannot contain spaces.",
-          "Nazwa użytkownika nie może zawierać spacji."
-        )
-      );
-    }
+  if (!updatedUser) {
+    return next(errorHandler(404, "USER_NOT_FOUND", "User not found."));
   }
 
-  if (req.body.username === "") {
-    return next(
-      errorHandler(
-        400,
-        "Username cannot be empty.",
-        "Nazwa użytkownika nie może być pusta."
-      )
-    );
-  }
-
-  try {
-    const updateUser = await User.findByIdAndUpdate(
-      req.params.userId,
-      {
-        $set: {
-          username: req.body.username,
-          email: req.body.email,
-          picture: req.body.picture,
-          password: req.body.password,
-        },
-      },
-      { new: true }
-    );
-
-    const { password, ...rest } = updateUser._doc;
-    res.status(200).json(rest);
-  } catch (err) {
-    next(err);
-  }
+  res.status(200).json(withoutPassword(updatedUser));
 };
 
 export const deleteUser = async (req, res, next) => {
-  if (!req.user.isAdmin && req.user.id !== req.params.userId) {
-    return next(
-      errorHandler(
-        403,
-        "You are not allowed to delete this user.",
-        "Nie masz uprawnień do usunięcia tego użytkownika."
-      )
-    );
+  const isSelf = req.user.id === req.params.userId;
+
+  if (!req.user.isAdmin && !isSelf) {
+    return next(errorHandler(403, "FORBIDDEN", "You are not allowed to delete this user."));
   }
 
-  try {
-    await User.findByIdAndDelete(req.params.userId);
-    res.status(200).json("Użytkownik został usunięty");
-  } catch (err) {
-    next(err);
+  const user = await User.findByIdAndDelete(req.params.userId);
+
+  if (!user) {
+    return next(errorHandler(404, "USER_NOT_FOUND", "User not found."));
   }
+
+  await Comment.deleteMany({ userId: req.params.userId });
+
+  if (isSelf) {
+    clearToken(res);
+  }
+
+  res.status(200).json({ success: true });
 };
 
-export const getUsers = async (req, res, next) => {
-  try {
-    if (!req.user.isAdmin) {
-      return next(
-        errorHandler(
-          403,
-          "You are not allowed to see all users",
-          "Nie możesz uprawnień do zobaczenia wszystkich użytkowników"
-        )
-      );
-    }
-    const startIndex = parseInt(req.query.startIndex) || 0;
-    const limit = parseInt(req.query.limit) || 9;
-    const sortDirection = req.query.sort === "asc" ? 1 : -1;
-    const users = await User.find()
-      .sort({ createdAt: sortDirection })
-      .skip(startIndex)
-      .limit(limit);
-    const usersWithoutPassword = users.map((user) => {
-      const { password, ...rest } = user._doc;
-      return rest;
-    });
-    const totalUsers = await User.countDocuments();
-    const now = new Date();
+export const getUsers = async (req, res) => {
+  const startIndex = parseInt(req.query.startIndex) || 0;
+  const limit = Math.min(parseInt(req.query.limit) || 9, 50);
+  const sortDirection = req.query.sort === "asc" ? 1 : -1;
 
-    const oneMonthAgo = new Date(
-      now.getFullYear(),
-      now.getMonth() - 1,
-      now.getDate()
-    );
+  const [users, totalUsers, lastMonthUsers] = await Promise.all([
+    User.find().sort({ createdAt: sortDirection }).skip(startIndex).limit(limit),
+    User.countDocuments(),
+    User.countDocuments({ createdAt: { $gte: oneMonthAgo() } }),
+  ]);
 
-    const lastMonthUsers = await User.countDocuments({
-      createdAt: { $gte: oneMonthAgo },
-    });
-    res.status(200).json({
-      users: usersWithoutPassword,
-      totalUsers,
-      lastMonthUsers,
-    });
-  } catch (err) {
-    next(err);
-  }
+  res.status(200).json({
+    users: users.map((user) => {
+      const rest = withoutPassword(user);
+      return req.user.isDemo ? { ...rest, email: maskEmail(rest.email) } : rest;
+    }),
+    totalUsers,
+    lastMonthUsers,
+  });
 };
 
 export const getUser = async (req, res, next) => {
-  try {
-    const user = await User.findById(req.params.userId);
-    if (!user) {
-      return next(
-        errorHandler(
-          404,
-          "User not found",
-          "Nie znaleziono takiego użytkownika"
-        )
-      );
-    }
-    const { password, ...rest } = user._doc;
-    res.status(200).json(rest);
-  } catch (err) {
-    next(err);
+  const user = await User.findById(req.params.userId).select("username picture isAdmin createdAt");
+
+  if (!user) {
+    return next(errorHandler(404, "USER_NOT_FOUND", "User not found."));
   }
+
+  res.status(200).json(user);
 };

@@ -1,12 +1,17 @@
 import express from "express";
-import { verifyToken } from "../utils/checkUserAuthentication.js";
-import { create, getPosts, deletePost, editPost } from "../controllers/post.js";
+import { verifyToken, requireAdmin, blockDemo } from "../utils/checkUserAuthentication.js";
+import { asyncHandler } from "../utils/error.js";
+import { validate, schemas } from "../utils/validate.js";
+import { create, getPosts, getCategories, deletePost, editPost } from "../controllers/post.js";
 
 const router = express.Router();
 
-router.post("/create", verifyToken, create);
-router.get("/getposts", getPosts);
-router.delete("/delete/:postId/:userId", verifyToken, deletePost);
-router.put("/edit/:postId/:userId", verifyToken, editPost);
+const adminWrite = [verifyToken, requireAdmin, blockDemo];
+
+router.post("/create", adminWrite, validate(schemas.post), asyncHandler(create));
+router.get("/getposts", asyncHandler(getPosts));
+router.get("/categories", asyncHandler(getCategories));
+router.delete("/delete/:postId", adminWrite, asyncHandler(deletePost));
+router.put("/edit/:postId", adminWrite, validate(schemas.post), asyncHandler(editPost));
 
 export default router;
