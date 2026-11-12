@@ -3,5 +3,5 @@ export const site = {
   github: "https://github.com/Kamil678",
   linkedin: "https://www.linkedin.com/in/kamil-pigulak/",
   portfolio: "https://kamilpigulak.com/",
-  repo: "https://github.com/Kamil678/fullstack-blog",
+  repo: "https://github.com/Kamil678/devlog",
 };

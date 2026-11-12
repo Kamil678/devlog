@@ -115,8 +115,8 @@ frontend/
 Requirements: Node.js 20+, a MongoDB database (local or a free Atlas cluster) and a Firebase project if you want Google sign-in and image uploads.
 
 ```bash
-git clone https://github.com/Kamil678/fullstack-blog.git
-cd fullstack-blog
+git clone https://github.com/Kamil678/devlog.git
+cd devlog
 npm install
 npm install --prefix frontend
 ```
